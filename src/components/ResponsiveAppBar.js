@@ -14,7 +14,6 @@ import Divider from '@mui/material/Divider';
 import PedalBikeIcon from '@mui/icons-material/PedalBike';
 import { useNavigate } from 'react-router-dom';
 
-import logo from '../logo.png';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -90,7 +89,6 @@ const ResponsiveAppBar = () => {
               width: 'auto',
               display: { xs: 'flex', md: 'none' }
             }}>
-            <img src={logo} />
           </Typography>
 
           <Box sx={{
