@@ -99,11 +99,12 @@ const a11yProps = index => {
 const Station = () => {
   const [value, setValue] = useState(0);
 
+  const { id } = useParams();
+
   const { data: station, isFetching, errorStation } = useGetStationByIdQuery(id, { skip: false });
   const { data: departures, isFetching: isFetchingDepartures, errorDepartures } = useGetStationTopDeparturesQuery(id);
   const { data: arrivals, isFetching: isFetchingArrivals, errorArrivals } = useGetStationTopArrivalsQuery(id);
 
-  const { id } = useParams();
 
 
   const departureHeader = [
@@ -118,6 +119,8 @@ const Station = () => {
     { key: 'station_name', title: 'Station Name' }
   ];
 
+  if (!station || !departures || !arrivals) return;
+
   const departureTable = BasicTable(departures, departureHeader, 'Top 5 Departures');
   const arrivalTable = BasicTable(arrivals, arrivalHeader, 'Top 5 Arrivals');
   const position = [station.coordinates.lat, station.coordinates.lon];
@@ -125,7 +128,6 @@ const Station = () => {
 
   const handleChange = (e, newValue) => setValue(newValue);
 
-  if (!station || !departures || !arrivals) return;
 
   return (
     <Box mt={4}>
