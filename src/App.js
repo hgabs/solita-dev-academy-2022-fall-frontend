@@ -1,24 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { StationList, Station } from './components/stations';
+import { JourneyList } from './components/journeys';
+import { Container } from '@mui/system';
+import ResponsiveAppBar from './components/ResponsiveAppBar';
+import Home from './components/Home';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+      <ResponsiveAppBar />
+      <Container maxWidth="xxl">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path='/stations' element={<Navigate to="/" />} />
+          <Route path='/stations/:id' element={<Station />} />
+          <Route path='/journeys' element={<JourneyList />} />
+        </Routes>
+      </Container>
+      </BrowserRouter>
+    </>
   );
 }
 
