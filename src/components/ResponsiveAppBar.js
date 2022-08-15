@@ -98,9 +98,16 @@ const ResponsiveAppBar = () => {
             alignItems: 'center',
             display: { xs: 'none', md: 'flex' }
           }}>
-            <Box sx={theme => ({ color: theme.palette.primary.main, marginRight: 6, fontSize: 30, display: 'flex', justifyContent: 'center', alignItems: 'baseline' })}>
-              <PedalBikeIcon fontSize="large" sx={{ flex: 1, marginRight: 1 }} />
-              <span>CITYBIKES</span>
+            <Box sx={theme => ({
+              color: theme.palette.primary.main,
+              marginRight: 6,
+              fontSize: 30,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            })}>
+              <PedalBikeIcon fontSize='large' sx={{ marginRight: 1, marginTop: '-5px' }} />
+              <Typography>CITYBIKES</Typography>
             </Box>
             {paths.map(path => (
               <Button
