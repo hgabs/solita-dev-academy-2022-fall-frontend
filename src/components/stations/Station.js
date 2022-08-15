@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import BasicTable from '../BasicTable';
 import PropTypes from 'prop-types';
 
 import { Alert, Breadcrumbs, Divider, Grid, Link, Typography } from '@mui/material';
@@ -14,54 +8,6 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { useParams } from 'react-router-dom';
 import { useGetStationByIdQuery, useGetStationTopDeparturesQuery, useGetStationTopArrivalsQuery } from '../../apis/backends';
 import { JourneyList } from '../journeys';
-
-const buildRows = (data, attributes) => data.map(row => {
-  const buildRow = {};
-  for (let i = 0; i < attributes.length; i++) {
-    if (attributes[i].key == 'station_name') {
-      buildRow[attributes[i].key] = <Link href={'/stations/' + row.station_id}>{row[attributes[i].key]}</Link>;
-    } else {
-      buildRow[attributes[i].key] = row[attributes[i].key];
-    }
-  }
-  return buildRow;
-});
-
-const BasicTable = (data, headers, title) => {
-  const rows = buildRows(data, headers);
-
-  return (
-    <>
-      <Typography variant="body1" sx={{ fontWeight: 'bold' }}>{title}</Typography>
-      <TableContainer component={Paper}>
-        <Table sx={{}} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              {headers.map(column => (
-                <TableCell key={column.title}>{column.title}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map(row => (
-              <TableRow
-                key={'r' + row.station_id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                {headers.map(item => (
-                  <TableCell
-                    key={item.key + '_' + row.station_id}
-                    component="td"
-                    scope="row">{row[item.key]}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </>
-  )
-}
 
 
 function TabPanel(props) {
@@ -104,8 +50,6 @@ const Station = () => {
   const { data: station, isFetching, errorStation } = useGetStationByIdQuery(id, { skip: false });
   const { data: departures, isFetching: isFetchingDepartures, errorDepartures } = useGetStationTopDeparturesQuery(id);
   const { data: arrivals, isFetching: isFetchingArrivals, errorArrivals } = useGetStationTopArrivalsQuery(id);
-
-
 
   const departureHeader = [
     { key: 'departure_count', title: 'Depature Count' },
