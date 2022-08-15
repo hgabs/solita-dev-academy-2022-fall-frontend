@@ -104,7 +104,7 @@ const Station = () => {
         <Grid item xl={12}>
           <TabPanel value={value} index={0}>
             <Grid container xl={12} spacing={6}>
-              <Grid item xl={8}>
+              <Grid item xs={12} xl={8}>
                 {
                   coordinatesExists && <MapContainer
                     scrollWheelZoom={false}
@@ -124,7 +124,7 @@ const Station = () => {
                 {!coordinatesExists && <Alert severity="error">No coordinates available for station.</Alert>}
 
                 <Box pt={6} textAlign="center">
-                  <Grid container xs={12}>
+                  <Grid container>
                     <Grid item sm={3}>
                       <Typography sx={{ fontWeight: 'bold' }} variant="h3">{station.departures}</Typography>
                       <Typography variant="body2">Departures</Typography>
