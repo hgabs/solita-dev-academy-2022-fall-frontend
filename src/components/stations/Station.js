@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import BasicTable from '../BasicTable';
 import PropTypes from 'prop-types';
+import Loader from '../Loader';
 
 import { Alert, Breadcrumbs, Divider, Grid, Link, Typography } from '@mui/material';
 import { Box, Tabs, Tab } from '@mui/material';
@@ -63,7 +64,9 @@ const Station = () => {
     { key: 'station_name', title: 'Station Name' }
   ];
 
-  if (!station || !departures || !arrivals) return;
+  if (!station || !departures || !arrivals) {
+    return <Loader />
+  }
 
   const departureTable = BasicTable(departures, departureHeader, 'Top 5 Departures');
   const arrivalTable = BasicTable(arrivals, arrivalHeader, 'Top 5 Arrivals');
