@@ -2,12 +2,15 @@ import { React, useState } from 'react';
 import { DataGrid, useGridApiRef } from '@mui/x-data-grid';
 import { useGetAllJourneysQuery } from '../../apis/backends';
 import { useParams, Link } from 'react-router-dom';
+import { DatePicker } from '@mui/x-date-pickers';
+import { TextField, Grid } from '@mui/material';
+import moment from 'moment';
 
 
 const JourneyList = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(null);
   const [filter, setFilter] = useState();
   const [operator, setOperator] = useState();
   const [value, setValue] = useState();
@@ -41,7 +44,7 @@ const JourneyList = () => {
     id,
     page: page + 1,
     limit,
-    date,
+    date: date ? moment(date).format('YYYY-MM-DD HH:mm:ss') : undefined,
     ...sortModel[0],
     filter,
     operator,
@@ -72,29 +75,48 @@ const JourneyList = () => {
 
   return (
     <>
-      <DataGrid
-        initialState={{
-          sorting: {
-            sortModel: [{ field: 'id', sort: 'desc' }],
-          },
-        }}
-        experimentalFeatures={{ newEditingApi: true }}
-        loading={isFetching}
-        rowHeight={70}
-        autoHeight={true}
-        paginationMode={'server'}
-        page={page}
-        onPageChange={handlePageChange}
-        rows={data?.results || []}
-        rowCount={data?.count || 0}
-        rowsPerPageOptions={[5, 10, 20, 50]}
-        pageSize={limit}
-        onPageSizeChange={handleChangeRowsPerPage}
-        columns={dataColumns}
-        onFilterModelChange={handleFilterModelChange}
-        sortModel={sortModel}
-        onSortModelChange={handleSortModelChange}
-        apiReft={apiRef} />
+      <Grid container spacing={2}>
+
+        <Grid item xs={12}>
+          <DatePicker
+            views={['year','month']}
+            inputFormat="MM.YYYY"
+            openTo='month'
+            label="Filter By Month"
+            value={date}
+            onChange={(newDate) => setDate(newDate)}
+            renderInput={(params) => <TextField fullWidth {...params} helperText={null} />}
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <DataGrid
+            initialState={{
+              sorting: {
+                sortModel: [{ field: 'id', sort: 'desc' }],
+              },
+            }}
+            experimentalFeatures={{ newEditingApi: true }}
+            loading={isFetching}
+            rowHeight={70}
+            autoHeight={true}
+            paginationMode={'server'}
+            page={page}
+            onPageChange={handlePageChange}
+            rows={data?.results || []}
+            rowCount={data?.count || 0}
+            rowsPerPageOptions={[5, 10, 20, 50]}
+            pageSize={limit}
+            onPageSizeChange={handleChangeRowsPerPage}
+            columns={dataColumns}
+            onFilterModelChange={handleFilterModelChange}
+            sortModel={sortModel}
+            onSortModelChange={handleSortModelChange}
+            apiReft={apiRef} />
+
+        </Grid>
+      </Grid>
+
     </>
   )
 };
