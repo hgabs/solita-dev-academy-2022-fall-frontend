@@ -101,6 +101,7 @@ const JourneyList = () => {
             rowHeight={70}
             autoHeight={true}
             paginationMode={'server'}
+            filterMode={'server'}
             page={page}
             onPageChange={handlePageChange}
             rows={data?.results || []}
