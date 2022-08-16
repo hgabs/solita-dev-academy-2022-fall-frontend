@@ -29,13 +29,13 @@ const JourneyList = () => {
   }
 
   const dataColumns = [
-    { field: 'id', headerName: 'Journey Id', sortable: true },
+    { field: 'id', headerName: 'Journey Id', type: 'number', valueFormatter: params => Number(params.value).toString(), sortable: true },
     { field: 'departure_station_name', headerName: 'Departing From', type: 'string', editable: true, flex: 1, renderCell: getDepartureStationLink },
-    { field: 'departure_time', headerName: 'Departure Time', type: 'dateTime', sortable: true, flex: 1 },
+    { field: 'departure_time', headerName: 'Departure Time', type: 'date', sortable: true, flex: 1 },
     { field: 'arrival_station_name', headerName: 'Arriving To', type: 'string', flex: 1, renderCell: getArrivalStationLink },
-    { field: 'arrival_time', headerName: 'Arrival Time', type: 'dateTime', sortable: true, flex: 1 },
+    { field: 'arrival_time', headerName: 'Arrival Time', type: 'date', sortable: true, flex: 1 },
     { field: 'distance', headerName: 'Distance (km)', sortable: true, type: 'number', flex: 0.5 },
-    { field: 'duration', headerName: 'Duration (min)', sortable: true, type: 'string', flex: 0.5 },
+    { field: 'duration', headerName: 'Duration (min)', sortable: true, type: 'number', flex: 0.5 },
   ];
 
   const { id } = useParams();
@@ -64,14 +64,21 @@ const JourneyList = () => {
 
   const handleFilterModelChange = (newFilter) => {
     if (!newFilter.items) return;
-    setFilter(newFilter.items[0].columnField);
-    setOperator(newFilter.items[0].operatorValue);
-    setValue(newFilter.items[0].value);
+    setPage(0);
+    setFilter(newFilter.items[0]?.columnField);
+    setOperator(newFilter.items[0]?.operatorValue);
+    if (['departure_time', 'arrival_time'].includes(newFilter.items[0].columnField)) {
+      const filterDate = moment.utc(newFilter.items[0].value).format('YYYY-MM-DD');
+      setValue(filterDate);
+    } else {
+      setValue(newFilter.items[0]?.value);
+    }
   }
 
   const handleSortModelChange = (newSort) => {
     setSortModel(newSort);
   }
+
 
   return (
     <>
