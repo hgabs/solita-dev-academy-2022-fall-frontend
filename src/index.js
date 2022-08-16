@@ -9,6 +9,8 @@ import { bicycleStationApi } from './apis/backends';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
 const store = configureStore({
   reducer: {
@@ -31,7 +33,9 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={muiTheme}>
       <Provider store={store}>
-        <App />
+        <LocalizationProvider dateAdapter={AdapterMoment}>
+          <App />
+        </LocalizationProvider>
         <CssBaseline />
       </Provider>
     </ThemeProvider>
